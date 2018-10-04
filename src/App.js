@@ -1,25 +1,42 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import List from './List';
+import TodoForm from './TodoForm';
 
 class App extends Component {
+
+  state = {todos: []}
+
+  addItem = (taduh) => {
+    const {todos} = this.state
+    const herewego = {id: Math.random(), name: taduh, complete: false}
+    this.setState({ todos: [...this.state.todos, herewego] })
+  }
+
+  handleCLick = id => {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.map( todo => {
+        if (todo.id == id) {
+          return {
+            ...todo,
+            complete: !todo.complete
+          }
+        }
+      })
+    })
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <li>
+        <TodoForm add Item={this.addItem} />
+        <List
+        name="Learning React with a List"
+        items={this.state.todos}
+        todoClick={this.handleClick}
+        />
+         </li>
       </div>
     );
   }
